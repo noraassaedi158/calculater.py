@@ -1,3 +1,5 @@
+import json
+import random
 print ("This is my first personal mini project, it is a calculator ")
 menu = ("for addition enter 1 \n"
             "for subtraction enter 2 \n"
@@ -5,30 +7,41 @@ menu = ("for addition enter 1 \n"
             "for division enter 4 \n"
             "to exit enter 5 ")
 choice=int(input(menu))
+with open("qoutes.json", 'r') as file:
+    q = json.load(file)
 def get_value():
     numOne = int(input("Enter first number: "))
     numTwo = int(input("Enter second number: "))
     return numOne, numTwo
+
 while (choice != 5):
+      en= random.choice(q["encourage"])
       if choice ==1:
           numOne, numTwo =get_value()
           print("the answer is: ", numOne + numTwo)
+          print(en)
       elif choice == 2:
           numOne, numTwo =get_value()
           print("the answer is: ", numOne - numTwo)
+          print(en)
       elif choice == 3:
           numOne, numTwo = get_value()
           print("the answer is: ", numOne * numTwo)
+          print(en)
       elif choice == 4:
           numOne, numTwo =get_value()
           if numTwo == 0:
               print("unable to divide by zero")
+              print(en)
               choice=int(input(menu))
           else:
                print("the answer is: ", numOne/numTwo)
+               print(en)
       else:
             print ('Error')
-choice = int(input(menu))
+            print(en)
+      choice = int(input(menu))
+print("Thank you for trying my mini program")
 
             print ('Error')
             exit(0)
