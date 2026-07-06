@@ -4,33 +4,31 @@ menu = ("for addition enter 1 \n"
             "for multiplication enter 3 \n"
             "for division enter 4 \n"
             "to exit enter 5 ")
-
-choice=int(input())
+choice=int(input(menu))
+def get_value():
+    numOne = int(input("Enter first number: "))
+    numTwo = int(input("Enter second number: "))
+    return numOne, numTwo
 while (choice != 5):
       if choice ==1:
-          numOne = int(input("Enter first number: "))
-          numTwo = int(input("Enter second number: "))
+          numOne, numTwo =get_value()
           print("the answer is: ", numOne + numTwo)
-          choice=int(input(menu))
       elif choice == 2:
-          numOne = int(input("Enter first number: "))
-          numTwo = int(input("Enter second number: "))
+          numOne, numTwo =get_value()
           print("the answer is: ", numOne - numTwo)
-          choice=int(input(menu))
       elif choice == 3:
-          numOne = int(input("Enter first number: "))
-          numTwo = int(input("Enter second number: "))
+          numOne, numTwo = get_value()
           print("the answer is: ", numOne * numTwo)
-          choice = int(input(menu))
       elif choice == 4:
-          numOne = int(input("Enter first number: "))
-          numTwo = int(input("Enter second number: "))
+          numOne, numTwo =get_value()
           if numTwo == 0:
               print("unable to divide by zero")
               choice=int(input(menu))
           else:
                print("the answer is: ", numOne/numTwo)
-               choice=int(input(menu))
       else:
+            print ('Error')
+choice = int(input(menu))
+
             print ('Error')
             exit(0)
