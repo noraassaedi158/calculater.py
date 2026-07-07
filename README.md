@@ -37,13 +37,13 @@ Possible improvements I would like to add:
 * maybe I'd add more operations like sin, cos..etc
 ## 💻 Running the Project
 
-1. Install PySide6:
+ Install PySide6:
 
 ```bash on your cmd
 pip install PySide6
 ```
 then,
-2. Run the application:
+Run the application:
 ```bash
 python main.py
 ```
