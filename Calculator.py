@@ -93,4 +93,4 @@ window.setLayout(whole_layout)
 window.resize(200, 300)
 window.show()
 
-            exit(0)
+        
