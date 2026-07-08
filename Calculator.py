@@ -1,7 +1,10 @@
+import signal
 import sys
 import json
 import random
+import datetime
 from PySide6.QtWidgets import QApplication, QWidget, QPushButton, QVBoxLayout, QLabel, QGridLayout, QLineEdit
+from PySide6.QtCore import QTimer
 with open("qoutes.json", 'r') as file:
     q = json.load(file)
 def en():
@@ -37,6 +40,14 @@ def sp():
 
 cleared=QPushButton("Clear")
 cleared.clicked.connect(wipe)
+date= QLabel("Date: " + datetime.datetime.now().strftime("%A %d %B %Y"))
+time=QLabel()
+def time_rn():
+     time.setText("Time: " + datetime.datetime.now().strftime("%I:%M %p"))
+clock=QTimer()
+clock.setInterval(1000)
+clock.timeout.connect(time_rn)
+clock.start()
 one=QPushButton(" 1 ")
 one.clicked.connect(lambda: calc_num("1") )
 two=QPushButton(" 2 ")
@@ -67,9 +78,11 @@ divi_button = QPushButton(" ÷ ")
 divi_button.clicked.connect(lambda: calc_num(" ÷ ") )
 equals = QPushButton(" = ")
 equals.clicked.connect(sp)
-title= QLabel("This is my first personal mini project, it is a calculator ")
+title= QLabel("This is my first personal mini project! ")
 whole_layout = QVBoxLayout()
 whole_layout.addWidget(title)
+whole_layout.addWidget(date)
+whole_layout.addWidget(time)
 whole_layout.addWidget(screen)
 whole_layout.addWidget(cleared)
 buttons_layout= QGridLayout()
@@ -92,5 +105,7 @@ whole_layout.addLayout(buttons_layout)
 window.setLayout(whole_layout)
 window.resize(200, 300)
 window.show()
+
+my_app.exec()
 
         
