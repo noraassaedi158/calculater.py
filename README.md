@@ -13,6 +13,7 @@ I used minimal AI, this is purely my work-I only used AI for debugging, searchin
 * Handles division by zero
 * Displays random encouraging messages from a JSON file (hehe)
 * Clear button to reset the calculator (that also displays a random message when clicked
+* Displays the current date and time, and the time on my calculator updates with the current time
 ## 🛠️ Technologies Used
 * Python
 * PySide6 (Qt for Python)
