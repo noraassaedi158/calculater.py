@@ -21,23 +21,26 @@ def calc_num(n):
 def wipe():
     screen.setText(screen.setPlaceholderText((en())))
 def sp():
-    whole = screen.text().split()
-    numOne = float(whole[0])
-    numTwo = float(whole[2])
-    operation = whole[1]
-    if operation == '-':
-        screen.setText (str(numOne - numTwo))
-    if operation == '+':
-        screen.setText (str(numOne + numTwo))
-    if operation == 'X':
-        screen.setText (str(numOne * numTwo))
-    if operation == '÷':
-        if numTwo == 0:
-            screen.setText(screen.setPlaceholderText((en())))
-        else:
-            screen.setText (str(numOne / numTwo))
-
-
+    values = screen.text().split()
+    numbers=[int(n) for n in values if n.isnumeric()==True]
+    operators=[o for o in values if o.isnumeric()!=True]
+    if len(numbers) == 0 :
+        print("error, love")
+    val = numbers[0]
+    for oper in range(0, len(operators)):
+        if operators[oper] == "-":
+            val=val-numbers[oper + 1]
+        if operators[oper] == "+":
+            val = val + numbers[oper + 1]
+        if operators[oper] == "X":
+            val = val * numbers[oper + 1]
+        if operators[oper] == "÷":
+             if numbers[oper + 1] == 0:
+                val="Error: cannot divide by 0"
+             else:
+                 val = val / numbers[oper + 1]
+    screen.clear()
+    screen.setText(str(val))
 cleared=QPushButton("Clear")
 cleared.clicked.connect(wipe)
 date= QLabel("Date: " + datetime.datetime.now().strftime("%A %d %B %Y"))
