@@ -48,3 +48,16 @@ Run the application:
 ```bash
 python main.py
 ```
+## updates:
+### Version 1.1:
+-console based calculator
+-Supports basic arithmetic operations between two numbers.
+
+### Version 1.2
+- Added a graphical user interface (GUI) using PySide6
+- Replaced the console interface with a more user-friendly design
+
+### Version 1.3
+- Added a live date and time display
+- Clock updates in real time while the application is running
+
