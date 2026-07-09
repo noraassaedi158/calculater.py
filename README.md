@@ -61,3 +61,7 @@ python main.py
 - Added a live date and time display
 - Clock updates in real time while the application is running
 
+### Version 1.4
+- Calculator can now evaluate expressions with multiple operations.
+- Improved division-by-zero error handling.
+
