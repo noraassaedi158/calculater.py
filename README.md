@@ -50,8 +50,8 @@ python main.py
 ```
 ## updates:
 ### Version 1.1:
--console based calculator
--Supports basic arithmetic operations between two numbers.
+- console based calculator
+- Supports basic arithmetic operations between two numbers.
 
 ### Version 1.2
 - Added a graphical user interface (GUI) using PySide6
