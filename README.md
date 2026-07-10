@@ -65,3 +65,5 @@ python main.py
 - Calculator can now evaluate expressions with multiple operations.
 - Improved division-by-zero error handling.
 
+## Version 1.5
+- Added support for evaluating expressions using the correct order of operations (BIDMAS).
