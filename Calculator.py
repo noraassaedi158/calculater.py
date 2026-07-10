@@ -31,8 +31,13 @@ def sp():
                 values[m - 1:m + 2] = v
                 break;
             elif values[m] == '÷':
-                v = [values[m - 1] / values[m + 1]]
-                values[m - 1:m + 2] = v
+                if values[m + 1] == 0:
+                    screen.clear()
+                    screen.setPlaceholderText((en()))
+                    return;
+                else:
+                    v = [values[m - 1] / values[m + 1]]
+                    values[m - 1:m + 2] = v
                 break;
         for m in  range(0, len(values)):
             if values[m] == '+':
@@ -114,5 +119,3 @@ window.resize(200, 300)
 window.show()
 
 my_app.exec()
-
-        
