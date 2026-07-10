@@ -9,7 +9,6 @@ with open("qoutes.json", 'r') as file:
     q = json.load(file)
 def en():
  return random.choice(q["encourage"])
-
 my_app = QApplication(sys.argv)
 window = QWidget()
 window.setWindowTitle("Calculator")
@@ -22,25 +21,30 @@ def wipe():
     screen.setText(screen.setPlaceholderText((en())))
 def sp():
     values = screen.text().split()
-    numbers=[int(n) for n in values if n.isnumeric()==True]
-    operators=[o for o in values if o.isnumeric()!=True]
-    if len(numbers) == 0 :
-        print("error, love")
-    val = numbers[0]
-    for oper in range(0, len(operators)):
-        if operators[oper] == "-":
-            val=val-numbers[oper + 1]
-        if operators[oper] == "+":
-            val = val + numbers[oper + 1]
-        if operators[oper] == "X":
-            val = val * numbers[oper + 1]
-        if operators[oper] == "÷":
-             if numbers[oper + 1] == 0:
-                val="Error: cannot divide by 0"
-             else:
-                 val = val / numbers[oper + 1]
+    for m in range(0, len(values)):
+        if values[m].isdigit():
+            values[m] = int(values[m])
+    while len(values) != 1:
+        for m in  range(0, len(values)):
+            if values[m] == 'X':
+                v = [values[m - 1] * values[m + 1]]
+                values[m - 1:m + 2] = v
+                break;
+            elif values[m] == '÷':
+                v = [values[m - 1] / values[m + 1]]
+                values[m - 1:m + 2] = v
+                break;
+        for m in  range(0, len(values)):
+            if values[m] == '+':
+                v = [values[m - 1] + values[m + 1]]
+                values[m - 1:m + 2] =v
+                break;
+            elif values[m] == '-':
+                v = [values[m - 1] - values[m + 1]]
+                values[m - 1:m + 2] = v
+                break;
     screen.clear()
-    screen.setText(str(val))
+    screen.setText(str(values[0]))
 cleared=QPushButton("Clear")
 cleared.clicked.connect(wipe)
 date= QLabel("Date: " + datetime.datetime.now().strftime("%A %d %B %Y"))
