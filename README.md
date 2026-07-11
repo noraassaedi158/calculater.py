@@ -14,7 +14,10 @@ I used minimal AI, this is purely my work-I only used AI for debugging, searchin
 * Displays random encouraging messages from a JSON file (hehe)
 * Clear button to reset the calculator (that also displays a random message when clicked
 * Displays the current date and time, and the time on my calculator updates with the current time
+## Calculator GUI
+
   <img width="372" height="412" alt="Screenshot 2026-07-11 182446" src="https://github.com/user-attachments/assets/3e4bbf17-859d-4531-8243-d256ffb966a0" />
+  
 ## 🛠️ Technologies Used
 * Python
 * PySide6 (Qt for Python)
