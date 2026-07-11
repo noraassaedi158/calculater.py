@@ -16,7 +16,8 @@ I used minimal AI, this is purely my work-I only used AI for debugging, searchin
 * Displays the current date and time, and the time on my calculator updates with the current time
 ## Calculator GUI
 
-  <img width="372" height="412" alt="Screenshot 2026-07-11 182446" src="https://github.com/user-attachments/assets/3e4bbf17-859d-4531-8243-d256ffb966a0" />
+  <img width="378" height="420" alt="Screenshot 2026-07-11 183330" src="https://github.com/user-attachments/assets/a8cf1ef0-1702-4684-81e5-4a305a2e5d6c" />
+
   
 ## 🛠️ Technologies Used
 * Python
