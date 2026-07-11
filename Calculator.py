@@ -4,17 +4,22 @@ import json
 import random
 import datetime
 from PySide6.QtWidgets import QApplication, QWidget, QPushButton, QVBoxLayout, QLabel, QGridLayout, QLineEdit
-from PySide6.QtCore import QTimer
+from PySide6.QtCore import QTimer, Qt
+
 with open("qoutes.json", 'r') as file:
     q = json.load(file)
+
 def en():
  return random.choice(q["encourage"])
+
 my_app = QApplication(sys.argv)
 window = QWidget()
 window.setWindowTitle("Calculator")
 screen= QLineEdit()
+screen.setFixedHeight(30)
 screen.setPlaceholderText(en())
 screen.setReadOnly(True)
+
 def calc_num(n):
     screen.setText(screen.text()+ n)
 def wipe():
@@ -26,7 +31,7 @@ def sp():
             values[m] = int(values[m])
     while len(values) != 1:
         for m in  range(0, len(values)):
-            if values[m] == 'X':
+            if values[m] == 'x':
                 v = [values[m - 1] * values[m + 1]]
                 values[m - 1:m + 2] = v
                 break;
@@ -50,16 +55,20 @@ def sp():
                 break;
     screen.clear()
     screen.setText(str(values[0]))
+
 cleared=QPushButton("Clear")
 cleared.clicked.connect(wipe)
 date= QLabel("Date: " + datetime.datetime.now().strftime("%A %d %B %Y"))
 time=QLabel()
+
 def time_rn():
      time.setText("Time: " + datetime.datetime.now().strftime("%I:%M %p"))
+
 clock=QTimer()
 clock.setInterval(1000)
 clock.timeout.connect(time_rn)
 clock.start()
+
 one=QPushButton(" 1 ")
 one.clicked.connect(lambda: calc_num("1") )
 two=QPushButton(" 2 ")
@@ -85,37 +94,68 @@ addition_button.clicked.connect(lambda: calc_num(" + ") )
 subtraction_button = QPushButton(" - ")
 subtraction_button.clicked.connect(lambda: calc_num(" - ") )
 multi_button = QPushButton(" x ")
-multi_button.clicked.connect(lambda: calc_num(" X ") )
+multi_button.clicked.connect(lambda: calc_num(" x ") )
 divi_button = QPushButton(" ÷ ")
 divi_button.clicked.connect(lambda: calc_num(" ÷ ") )
 equals = QPushButton(" = ")
 equals.clicked.connect(sp)
+
 title= QLabel("This is my first personal mini project! ")
+title.setObjectName("title")
 whole_layout = QVBoxLayout()
 whole_layout.addWidget(title)
 whole_layout.addWidget(date)
 whole_layout.addWidget(time)
+title.setAlignment(Qt.AlignmentFlag.AlignCenter)
+
 whole_layout.addWidget(screen)
 whole_layout.addWidget(cleared)
 buttons_layout= QGridLayout()
-buttons_layout.addWidget(one, 0,0)
-buttons_layout.addWidget(two, 0, 1)
-buttons_layout.addWidget(three, 0, 2)
+buttons_layout.addWidget(seven, 0,0)
+buttons_layout.addWidget(eight, 0, 1)
+buttons_layout.addWidget(nine, 0, 2)
+buttons_layout.addWidget(divi_button, 0, 3)
 buttons_layout.addWidget(four, 1, 0)
 buttons_layout.addWidget(five, 1, 1)
 buttons_layout.addWidget(six, 1, 2)
-buttons_layout.addWidget(seven, 2, 0)
-buttons_layout.addWidget(eight, 2, 1)
-buttons_layout.addWidget(nine, 2, 2)
-buttons_layout.addWidget(zero,3, 0)
-buttons_layout.addWidget(addition_button, 3, 1)
-buttons_layout.addWidget(subtraction_button, 3, 2)
-buttons_layout.addWidget(multi_button, 4,0)
-buttons_layout.addWidget(equals ,4, 1)
-buttons_layout.addWidget(divi_button, 4, 2)
+buttons_layout.addWidget(multi_button, 1, 3)
+buttons_layout.addWidget(one, 2, 0)
+buttons_layout.addWidget(two,2, 1)
+buttons_layout.addWidget(three, 2, 2)
+buttons_layout.addWidget(subtraction_button, 2, 3)
+buttons_layout.addWidget(zero, 3,0)
+buttons_layout.addWidget(addition_button ,3, 1)
+buttons_layout.addWidget(equals,3, 2, 1, 2)
 whole_layout.addLayout(buttons_layout)
 window.setLayout(whole_layout)
-window.resize(200, 300)
+
+window.setStyleSheet(""" QWidget {background-color: #A6425B;
+                                  color: black } 
+                      QPushButton { background-color: pink;
+                                    color: #A6425B ;
+                                    font-weight: bold;
+                                    border: 1.5px solid #BD6073; 
+                                    border-radius: 8px;
+                                    } 
+                       QPushButton:pressed { background-color: #FAEDED} 
+                       QPushButton:hover { background-color: #FAEDED}             
+                       QLabel { color : white ;
+                                font-weight: bold ; 
+                                font-family: Lucida Console }
+                       QLabel#title{color : black ;
+                                font-size: 13px;
+                                 font-family : Lucida Calligraphy}
+                       QLineEdit{
+                                color : white ;
+                                font-weight: bold;
+                                border:  0.5px solid #BD6073;
+                                border-radius: 8px;
+                                font-family: Lucida Console} 
+                       QLineEdit::placeholder { color: white;
+                                               font-weight: bold} """ )
+window.setFixedSize(300, 300)
 window.show()
+
+my_app.exec()
 
 my_app.exec()
