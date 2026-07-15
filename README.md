@@ -54,19 +54,19 @@ Run the application:
 python main.py
 ```
 ## updates:
-### Version 1.1:
+## Version 1.1:
 - console based calculator
 - Supports basic arithmetic operations between two numbers.
 
-### Version 1.2
+## Version 1.2
 - Added a graphical user interface (GUI) using PySide6
 - Replaced the console interface with a more user-friendly design
 
-### Version 1.3
+## Version 1.3
 - Added a live date and time display
 - Clock updates in real time while the application is running
 
-### Version 1.4
+## Version 1.4
 - Calculator can now evaluate expressions with multiple operations.
 - Improved division-by-zero error handling.
 
@@ -76,3 +76,8 @@ python main.py
 ## Version 1.6
 - Redesigned the user interface using Qt Style Sheets (QSS).
 - Added a custom color palette, fonts, rounded buttons, and improved overall visual consistency.
+
+## Version 1.7
+- Added decimal number support.
+- Added bracket buttons (logic not yet implemented).
+- Added "Press Me!" button to generate random encouragement messages.
