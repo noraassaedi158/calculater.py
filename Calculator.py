@@ -3,7 +3,7 @@ import sys
 import json
 import random
 import datetime
-from PySide6.QtWidgets import QApplication, QWidget, QPushButton, QVBoxLayout, QLabel, QGridLayout, QLineEdit
+from PySide6.QtWidgets import QApplication, QWidget, QPushButton, QVBoxLayout, QLabel, QGridLayout, QLineEdi
 from PySide6.QtCore import QTimer, Qt
 
 with open("qoutes.json", 'r') as file:
@@ -23,36 +23,41 @@ screen.setReadOnly(True)
 def calc_num(n):
     screen.setText(screen.text()+ n)
 def wipe():
-    screen.setText(screen.setPlaceholderText((en())))
+    screen.clear()
+def press():
+    screen.clear()
+    screen.setPlaceholderText((en()))
 def sp():
     values = screen.text().split()
-    for m in range(0, len(values)):
-        if values[m].isdigit():
-            values[m] = int(values[m])
     while len(values) != 1:
+        for m in range(0, len(values)):
+             try:
+                values[m] = float(values[m])
+             except:
+                 pass
         for m in  range(0, len(values)):
-            if values[m] == 'x':
-                v = [values[m - 1] * values[m + 1]]
-                values[m - 1:m + 2] = v
-                break;
-            elif values[m] == '÷':
-                if values[m + 1] == 0:
-                    screen.clear()
-                    screen.setPlaceholderText((en()))
-                    return;
-                else:
+           if values[m] == 'x':
+              v = [values[m - 1] * values[m + 1]]
+              values[m - 1:m + 2] = v
+              break;
+           elif values[m] == '÷':
+               if values[m + 1] == 0:
+                   screen.clear()
+                   screen.setPlaceholderText((en()))
+                   return
+               else:
                     v = [values[m - 1] / values[m + 1]]
                     values[m - 1:m + 2] = v
-                break;
+                    break
         for m in  range(0, len(values)):
-            if values[m] == '+':
-                v = [values[m - 1] + values[m + 1]]
-                values[m - 1:m + 2] =v
-                break;
-            elif values[m] == '-':
-                v = [values[m - 1] - values[m + 1]]
-                values[m - 1:m + 2] = v
-                break;
+           if values[m] == '+':
+               v = [values[m - 1] + values[m + 1]]
+               values[m - 1:m + 2] =v
+               break
+           elif values[m] == '-':
+               v = [values[m - 1] - values[m + 1]]
+               values[m - 1:m + 2] = v
+               break
     screen.clear()
     screen.setText(str(values[0]))
 
@@ -97,9 +102,16 @@ multi_button = QPushButton(" x ")
 multi_button.clicked.connect(lambda: calc_num(" x ") )
 divi_button = QPushButton(" ÷ ")
 divi_button.clicked.connect(lambda: calc_num(" ÷ ") )
+dot = QPushButton(".")
+dot.clicked.connect(lambda: calc_num(".") )
+left_br = QPushButton("(")
+left_br.clicked.connect(lambda: calc_num("(") )
+right_br = QPushButton(")")
+right_br.clicked.connect(lambda: calc_num(")") )
 equals = QPushButton(" = ")
 equals.clicked.connect(sp)
-
+press_me=QPushButton("Press me!")
+press_me.clicked.connect(press)
 title= QLabel("This is my first personal mini project! ")
 title.setObjectName("title")
 whole_layout = QVBoxLayout()
@@ -123,9 +135,14 @@ buttons_layout.addWidget(one, 2, 0)
 buttons_layout.addWidget(two,2, 1)
 buttons_layout.addWidget(three, 2, 2)
 buttons_layout.addWidget(subtraction_button, 2, 3)
-buttons_layout.addWidget(zero, 3,0)
-buttons_layout.addWidget(addition_button ,3, 1)
-buttons_layout.addWidget(equals,3, 2, 1, 2)
+buttons_layout.addWidget(zero, 3,1)
+buttons_layout.addWidget(dot ,3, 2)
+buttons_layout.addWidget(addition_button,3, 3)
+buttons_layout.addWidget(press_me, 3, 0)
+buttons_layout.addWidget(left_br, 4, 0)
+buttons_layout.addWidget(right_br, 4, 1)
+buttons_layout.addWidget(equals, 4, 2, 1,2)
+
 whole_layout.addLayout(buttons_layout)
 window.setLayout(whole_layout)
 
