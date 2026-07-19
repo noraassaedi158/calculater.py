@@ -4,7 +4,7 @@ its a simple calculator application built with Python and PySide6.
 My project started of as a basic terminal calculator and I later redesigned it as graphical desktop application.
 The goal was to practice GUI development, event handling, and connecting user interactions with program logic.
 I found this easy as I had practice with JavaFX this year in my advanced programming course
-I used minimal AI, this is purely my work-I only used AI for debugging, searching syntax structure of python since I mainly use Java and AI helping me write my ReadMe (keyword-helping, I revised and edited )
+AI was used only as a debugging and syntax reference tool. The implementation and project decisions are my own.
 ## ✨ Features
 * Addition, subtraction, multiplication, and division
 * Graphical user interface built with PySide6
@@ -81,3 +81,9 @@ python main.py
 - Added decimal number support.
 - Added bracket buttons (logic not yet implemented).
 - Added "Press Me!" button to generate random encouragement messages.
+  
+  ## Version 1.8
+- Implemented bracket evaluation and nested expression handling.
+- Added a stack-based system to detect matching parentheses.
+- Improved the calculator engine to solve bracketed expressions before applying the remaining operations.
+- Expanded expression parsing capabilities beyond simple number-operator-number calculations.
