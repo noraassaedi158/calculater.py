@@ -3,7 +3,7 @@ import sys
 import json
 import random
 import datetime
-from PySide6.QtWidgets import QApplication, QWidget, QPushButton, QVBoxLayout, QLabel, QGridLayout, QLineEdi
+from PySide6.QtWidgets import QApplication, QWidget, QPushButton, QVBoxLayout, QLabel, QGridLayout, QLineEdit
 from PySide6.QtCore import QTimer, Qt
 
 with open("qoutes.json", 'r') as file:
@@ -27,39 +27,63 @@ def wipe():
 def press():
     screen.clear()
     screen.setPlaceholderText((en()))
+
 def sp():
     values = screen.text().split()
+    br_finder=[]
+    while len(values) != 1:
+        for m in  range(0, len(values)):
+            if values[m] == "(":
+                br_finder.append(m)
+            elif values[m] == ")":
+                br=br_finder.pop()
+                values_br=values[br+1: m]
+                answer=bidmas(values_br)
+                #replace even the brackets
+                values[br: m+1]=answer
+                break
+        for m in range (0, len(values)):
+               answer=bidmas(values)
+    screen.clear()
+    screen.setText(str(answer[0]))
+
+def bidmas(values):
     while len(values) != 1:
         for m in range(0, len(values)):
-             try:
+            try:
                 values[m] = float(values[m])
-             except:
-                 pass
-        for m in  range(0, len(values)):
-           if values[m] == 'x':
-              v = [values[m - 1] * values[m + 1]]
-              values[m - 1:m + 2] = v
-              break;
-           elif values[m] == '÷':
-               if values[m + 1] == 0:
-                   screen.clear()
-                   screen.setPlaceholderText((en()))
-                   return
-               else:
+            except:
+                pass
+
+        for m in range(0, len(values)):
+            if values[m] == 'x':
+                print(type(values[m - 1]))
+                v = [float(values[m - 1]) * values[m + 1]]
+                values[m - 1:m + 2] = v
+                break
+
+            elif values[m] == '÷':
+                if values[m + 1] == 0:
+                    screen.clear()
+                    screen.setPlaceholderText((en()))
+                    return
+                else:
                     v = [values[m - 1] / values[m + 1]]
                     values[m - 1:m + 2] = v
                     break
-        for m in  range(0, len(values)):
-           if values[m] == '+':
-               v = [values[m - 1] + values[m + 1]]
-               values[m - 1:m + 2] =v
-               break
-           elif values[m] == '-':
-               v = [values[m - 1] - values[m + 1]]
-               values[m - 1:m + 2] = v
-               break
-    screen.clear()
-    screen.setText(str(values[0]))
+
+        for m in range(0, len(values)):
+            if values[m] == '+':
+                v = [values[m - 1] + values[m + 1]]
+                values[m - 1:m + 2] = v
+                break
+
+            elif values[m] == '-':
+                v = [values[m - 1] - values[m + 1]]
+                values[m - 1:m + 2] = v
+                break
+
+    return values
 
 cleared=QPushButton("Clear")
 cleared.clicked.connect(wipe)
@@ -105,9 +129,9 @@ divi_button.clicked.connect(lambda: calc_num(" ÷ ") )
 dot = QPushButton(".")
 dot.clicked.connect(lambda: calc_num(".") )
 left_br = QPushButton("(")
-left_br.clicked.connect(lambda: calc_num("(") )
+left_br.clicked.connect(lambda: calc_num(" ( ") )
 right_br = QPushButton(")")
-right_br.clicked.connect(lambda: calc_num(")") )
+right_br.clicked.connect(lambda: calc_num(" ) ") )
 equals = QPushButton(" = ")
 equals.clicked.connect(sp)
 press_me=QPushButton("Press me!")
@@ -175,4 +199,3 @@ window.show()
 
 my_app.exec()
 
-my_app.exec()
