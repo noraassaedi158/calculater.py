@@ -3,7 +3,7 @@
 its a simple calculator application built with Python and PySide6.
 My project started of as a basic terminal calculator and I later redesigned it as graphical desktop application.
 The goal was to practice GUI development, event handling, and connecting user interactions with program logic.
-I found this easy as I had practice with JavaFX this year in my advanced programming course
+I found this easy as I had practice with JavaFX this year in my advanced programming course.
 AI was used as a learning and debugging tool. It helped explain Python syntax, discuss programming logic, and troubleshoot issues. All code was implemented by me, and I understand and can explain every part of the project.
 ## ✨ Features
 * Addition, subtraction, multiplication, and division
