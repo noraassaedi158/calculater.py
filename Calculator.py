@@ -27,34 +27,54 @@ def wipe():
 def press():
     screen.clear()
     screen.setPlaceholderText((en()))
-
 def sp():
     values = screen.text().split()
     br_finder=[]
-    while len(values) != 1:
-        for m in  range(0, len(values)):
+    #this is for validating the brackets
+    for m in  range(0, len(values)):
             if values[m] == "(":
                 br_finder.append(m)
             elif values[m] == ")":
-                br=br_finder.pop()
-                values_br=values[br+1: m]
-                answer=bidmas(values_br)
+                if len(br_finder) == 0:
+                    screen.clear()
+                    screen.setPlaceholderText((en()))
+                    return
+                else:
+                    br_finder.pop()
+    if len(br_finder) > 0:
+        screen.clear()
+        screen.setPlaceholderText((en()))
+        return
+    #and here is where it is solved 
+    for m in range(0, len(values)):
+        for m in range(0, len(values)):
+            if values[m] == "(":
+                br_finder.append(m)
+            elif values[m] == ")":
+                br = br_finder.pop()
+                values_br = values[br + 1: m]
+                answer=conversion(values_br)
                 #replace even the brackets
                 values[br: m+1]=answer
                 break
-        for m in range (0, len(values)):
-               answer=bidmas(values)
+    for m in range (0, len(values)):
+        answer=conversion(values)
+
+    answer=bidmas(answer)
     screen.clear()
     screen.setText(str(answer[0]))
 
-def bidmas(values):
-    while len(values) != 1:
+def conversion(values):
         for m in range(0, len(values)):
             try:
                 values[m] = float(values[m])
             except:
                 pass
+        return values
+#def validation():
 
+def bidmas(values):
+    while len(values) != 1:
         for m in range(0, len(values)):
             if values[m] == 'x':
                 print(type(values[m - 1]))
@@ -162,6 +182,7 @@ buttons_layout.addWidget(subtraction_button, 2, 3)
 buttons_layout.addWidget(zero, 3,1)
 buttons_layout.addWidget(dot ,3, 2)
 buttons_layout.addWidget(addition_button,3, 3)
+
 buttons_layout.addWidget(press_me, 3, 0)
 buttons_layout.addWidget(left_br, 4, 0)
 buttons_layout.addWidget(right_br, 4, 1)
@@ -198,4 +219,5 @@ window.setFixedSize(300, 300)
 window.show()
 
 my_app.exec()
+
 
