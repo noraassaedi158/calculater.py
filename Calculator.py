@@ -30,6 +30,10 @@ def press():
 def sp():
     values = screen.text().split()
     br_finder=[]
+    if len(values)==0:
+        screen.clear()
+        screen.setPlaceholderText((en()))
+        return
     #this is for validating the brackets
     for m in  range(0, len(values)):
             if values[m] == "(":
@@ -45,7 +49,7 @@ def sp():
         screen.clear()
         screen.setPlaceholderText((en()))
         return
-    #and here is where it is solved 
+    #and here is where it is solved
     for m in range(0, len(values)):
         for m in range(0, len(values)):
             if values[m] == "(":
@@ -59,10 +63,11 @@ def sp():
                 break
     for m in range (0, len(values)):
         answer=conversion(values)
-
-    answer=bidmas(answer)
-    screen.clear()
-    screen.setText(str(answer[0]))
+    answer = validation(answer)
+    if answer != None:
+       answer=bidmas(answer)
+       screen.clear()
+       screen.setText(str(answer[0]))
 
 def conversion(values):
         for m in range(0, len(values)):
@@ -71,8 +76,38 @@ def conversion(values):
             except:
                 pass
         return values
-#def validation():
 
+def validation(values):
+    if len(values) == 1:
+        if isinstance(values[0], float):
+           return values
+        else:
+            screen.clear()
+            screen.setPlaceholderText((en()))
+            return
+    else:
+        for m in range(0, len(values)):
+            if values[m] == 'x' or values[m] == '÷':
+                if values[m + 1] == 'x' or values[m + 1] == '÷'  :
+                    screen.clear()
+                    screen.setPlaceholderText((en()))
+                    return
+                elif values[m - 1] == 'x' or values[m - 1] == '÷'  :
+                    screen.clear()
+                    screen.setPlaceholderText((en()))
+                    return
+                elif values[0] =='x'  or values[0] == '÷':
+                    screen.clear()
+                    screen.setPlaceholderText((en()))
+                    return
+                elif values[len(values)-1] == 'x' or values[len(values)-1] ==  '÷':
+                    screen.clear()
+                    screen.setPlaceholderText((en()))
+                    return
+        return values
+
+#def normalization(values):
+   
 def bidmas(values):
     while len(values) != 1:
         for m in range(0, len(values)):
@@ -81,7 +116,6 @@ def bidmas(values):
                 v = [float(values[m - 1]) * values[m + 1]]
                 values[m - 1:m + 2] = v
                 break
-
             elif values[m] == '÷':
                 if values[m + 1] == 0:
                     screen.clear()
@@ -91,18 +125,15 @@ def bidmas(values):
                     v = [values[m - 1] / values[m + 1]]
                     values[m - 1:m + 2] = v
                     break
-
         for m in range(0, len(values)):
             if values[m] == '+':
                 v = [values[m - 1] + values[m + 1]]
                 values[m - 1:m + 2] = v
                 break
-
             elif values[m] == '-':
                 v = [values[m - 1] - values[m + 1]]
                 values[m - 1:m + 2] = v
                 break
-
     return values
 
 cleared=QPushButton("Clear")
@@ -219,5 +250,3 @@ window.setFixedSize(300, 300)
 window.show()
 
 my_app.exec()
-
-
