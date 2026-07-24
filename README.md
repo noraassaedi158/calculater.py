@@ -16,7 +16,8 @@ AI was used as a learning and debugging tool. It helped explain Python syntax, d
 * Displays the current date and time, and the time on my calculator updates with the current time
 ## Calculator GUI
 
-  <img width="378" height="420" alt="Screenshot 2026-07-11 183330" src="https://github.com/user-attachments/assets/a8cf1ef0-1702-4684-81e5-4a305a2e5d6c" />
+<img width="378" height="412" alt="Screenshot 2026-07-24 160135" src="https://github.com/user-attachments/assets/ff1a3234-466a-4596-8b1b-734bb3236ae3" />
+
 
   
 ## 🛠️ Technologies Used
