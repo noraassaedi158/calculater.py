@@ -61,13 +61,17 @@ def sp():
                 #replace even the brackets
                 values[br: m+1]=answer
                 break
-    for m in range (0, len(values)):
-        answer=conversion(values)
+
+    answer=conversion(values)
     answer = validation(answer)
-    if answer != None:
-       answer=bidmas(answer)
-       screen.clear()
-       screen.setText(str(answer[0]))
+    answer = normalization(answer)
+    print(answer)
+    if answer != None and len(answer) != 1:
+        answer = bidmas(answer)
+
+
+    screen.clear()
+    screen.setText(str(answer[0]))
 
 def conversion(values):
         for m in range(0, len(values)):
@@ -106,13 +110,50 @@ def validation(values):
                     return
         return values
 
-#def normalization(values):
-   
+def normalization(values):
+    sign_collector = []
+    neg_collect = []
+    index_collect = []
+    for m in range(0, len(values)):
+
+        while values[m] != '÷' and values[m] != 'x' and isinstance(values[m], float) == False:
+            if values[m] == "-" or values[m] == "+":
+                sign_collector.append(values[m])
+                index_collect.append(m)
+            break
+        if  values[m] != '÷' and values[m] != 'x' and isinstance(values[m], float) == False:
+            continue
+        else:
+            if len(sign_collector) == 1:
+                if (values[m-1] == 'x' or values[m-1] == '÷') and isinstance(values[m+1], float):
+                    if sign_collector[0] == "-":
+                        values[m+1] = -values[m+1]
+                        values[index_collect[0]:index_collect[-1]+2] = [values[index_collect[-1]+1]]
+                        break
+                    else:
+                        values[index_collect[0]:index_collect[-1]+2] = [values[index_collect[-1]+1]]
+                        break
+                else:
+                    return values
+            for s in range(0, len(sign_collector)):
+                if sign_collector[s] == '-':
+                    neg_collect.append(s)
+                if len(neg_collect) % 2 != 0:
+                    values[index_collect[0]:index_collect[-1]+2] = [values[index_collect[-1]+1]]
+                    break
+                else:
+                    values[index_collect[0]:index_collect[-1]+2] = [values[index_collect[-1]+1]]
+                    break
+        sign_collector = []
+        neg_collect = []
+        index_collect = []
+
+    return values
+
 def bidmas(values):
     while len(values) != 1:
         for m in range(0, len(values)):
             if values[m] == 'x':
-                print(type(values[m - 1]))
                 v = [float(values[m - 1]) * values[m + 1]]
                 values[m - 1:m + 2] = v
                 break
