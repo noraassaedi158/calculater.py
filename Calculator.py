@@ -45,16 +45,29 @@ def sp():
                     return
                 else:
                     br_finder.pop()
+
     if len(br_finder) > 0:
         screen.clear()
         screen.setPlaceholderText((en()))
         return
     #and here is where it is solved
     for m in range(0, len(values)):
+        before = None
+        after = None
         for m in range(0, len(values)):
             if values[m] == "(":
                 br_finder.append(m)
+                if m-1>=0:
+                    try:
+                          before=float(values[m-1])
+                    except:
+                        pass
             elif values[m] == ")":
+                if m+1<len(values):
+                    try:
+                        after = float(values[m +1])
+                    except:
+                        pass
                 br = br_finder.pop()
                 values_br = values[br + 1: m]
                 if len(values_br) ==0:
@@ -62,9 +75,22 @@ def sp():
                     screen.setPlaceholderText((en()))
                     return
                 else:
-                    answer=conversion(values_br)
-                    #replace even the brackets
-                    values[br: m+1]=answer
+                    answer = conversion(values_br)
+                    answer = validation(answer)
+                    if answer != None:
+                        answer = normalization(answer)
+                        if answer != None and len(answer) != 1:
+                            answer = bidmas(answer)
+                            
+                    if after != None and before != None:
+                        answer = answer[0] * float(after) *float(before)
+                        values[br-1:m+2] =[answer]
+                    if after != None and before ==None:
+                        answer = answer[0] * float(after)
+                        values[br:m+2]=[answer]
+                    elif before != None and after == None:
+                        answer = answer[0] * float(before)
+                        values[br-1:m+1] = [answer]
                     break
     if len(values) == 0:
         return
@@ -74,6 +100,7 @@ def sp():
         answer = normalization(answer)
         if answer != None and len(answer) != 1:
            answer = bidmas(answer)
+           print(answer)
     screen.clear()
     screen.setText(str(answer[0]))
 
