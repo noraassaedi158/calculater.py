@@ -57,19 +57,23 @@ def sp():
             elif values[m] == ")":
                 br = br_finder.pop()
                 values_br = values[br + 1: m]
-                answer=conversion(values_br)
-                #replace even the brackets
-                values[br: m+1]=answer
-                break
-
+                if len(values_br) ==0:
+                    screen.clear()
+                    screen.setPlaceholderText((en()))
+                    return
+                else:
+                    answer=conversion(values_br)
+                    #replace even the brackets
+                    values[br: m+1]=answer
+                    break
+    if len(values) == 0:
+        return
     answer=conversion(values)
     answer = validation(answer)
-    answer = normalization(answer)
-    print(answer)
-    if answer != None and len(answer) != 1:
-        answer = bidmas(answer)
-
-
+    if answer != None:
+        answer = normalization(answer)
+        if answer != None and len(answer) != 1:
+           answer = bidmas(answer)
     screen.clear()
     screen.setText(str(answer[0]))
 
@@ -92,63 +96,61 @@ def validation(values):
     else:
         for m in range(0, len(values)):
             if values[m] == 'x' or values[m] == '÷':
-                if values[m + 1] == 'x' or values[m + 1] == '÷'  :
+                if m < len(values)-1:
+                    if values[m + 1] == 'x' or values[m + 1] == '÷'  :
+                        screen.clear()
+                        screen.setPlaceholderText((en()))
+                        return
+                elif 0< m < len(values) -1:
+                     if values[m - 1] == 'x' or values[m - 1] == '÷'  :
+                        screen.clear()
+                        screen.setPlaceholderText((en()))
+                        return
+                elif values[-1] == 'x' and values[-1] ==  '÷' and values[-1] == '-' and values[-1] ==  '+':
                     screen.clear()
                     screen.setPlaceholderText((en()))
                     return
-                elif values[m - 1] == 'x' or values[m - 1] == '÷'  :
+                elif values[0] == 'x' or values[0] == '÷':
                     screen.clear()
                     screen.setPlaceholderText((en()))
                     return
-                elif values[0] =='x'  or values[0] == '÷':
-                    screen.clear()
-                    screen.setPlaceholderText((en()))
-                    return
-                elif values[len(values)-1] == 'x' or values[len(values)-1] ==  '÷':
-                    screen.clear()
-                    screen.setPlaceholderText((en()))
-                    return
+            elif values[m] == '-' or values[m] ==  '+':
+                if m<len(values)-1:
+                    if values[m+1] == 'x' or values[m+1] ==  '÷':
+                        screen.clear()
+                        screen.setPlaceholderText((en()))
+                        return
         return values
 
 def normalization(values):
-    sign_collector = []
-    neg_collect = []
-    index_collect = []
-    for m in range(0, len(values)):
-
-        while values[m] != '÷' and values[m] != 'x' and isinstance(values[m], float) == False:
-            if values[m] == "-" or values[m] == "+":
-                sign_collector.append(values[m])
-                index_collect.append(m)
-            break
-        if  values[m] != '÷' and values[m] != 'x' and isinstance(values[m], float) == False:
-            continue
+    m=0
+    if len(values) == 1:
+        return values
+    else:
+     while m < len(values):
+        if m+1< len(values) < m-1 or m>=0:
+          if values[m] == "-" or values[m] == "+":
+              if (m==0 and isinstance(values[m+1], float)) or (not isinstance(values[m-1], float) and isinstance(values[m+1], float)) :
+                    if values[m] =="+":
+                        values[m: m+2] =[values[m+1]]
+                        m+=1
+                        continue
+                    if values[m] =="-":
+                        values[m:m+2]= [-values[m+1]]
+                        m+=1
+                        continue
+              else:
+                  m+=1
+                  continue
+          else:
+              m+=1
+              continue
         else:
-            if len(sign_collector) == 1:
-                if (values[m-1] == 'x' or values[m-1] == '÷') and isinstance(values[m+1], float):
-                    if sign_collector[0] == "-":
-                        values[m+1] = -values[m+1]
-                        values[index_collect[0]:index_collect[-1]+2] = [values[index_collect[-1]+1]]
-                        break
-                    else:
-                        values[index_collect[0]:index_collect[-1]+2] = [values[index_collect[-1]+1]]
-                        break
-                else:
-                    return values
-            for s in range(0, len(sign_collector)):
-                if sign_collector[s] == '-':
-                    neg_collect.append(s)
-                if len(neg_collect) % 2 != 0:
-                    values[index_collect[0]:index_collect[-1]+2] = [values[index_collect[-1]+1]]
-                    break
-                else:
-                    values[index_collect[0]:index_collect[-1]+2] = [values[index_collect[-1]+1]]
-                    break
-        sign_collector = []
-        neg_collect = []
-        index_collect = []
-
+              m+=1
+              continue
     return values
+
+
 
 def bidmas(values):
     while len(values) != 1:
@@ -175,6 +177,7 @@ def bidmas(values):
                 v = [values[m - 1] - values[m + 1]]
                 values[m - 1:m + 2] = v
                 break
+
     return values
 
 cleared=QPushButton("Clear")
