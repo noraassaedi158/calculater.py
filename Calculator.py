@@ -91,6 +91,9 @@ def sp():
                     elif before != None and after == None:
                         answer = answer[0] * float(before)
                         values[br-1:m+1] = [answer]
+                    elif before == None and after == None:
+                        values[br: m + 1] = answer
+                        print(values)
                     break
     if len(values) == 0:
         return
