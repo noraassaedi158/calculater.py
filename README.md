@@ -1,6 +1,6 @@
 # PySide6 Calculator
 
-## My first ever mini project (heheheheh)!
+## My first ever mini project!
 
 A calculator application built with Python and PySide6.
 
