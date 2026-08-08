@@ -105,9 +105,15 @@ def sp():
         answer = normalization(answer)
         if answer != None and len(answer) != 1:
            answer = bidmas(answer)
-           print(answer)
-    screen.clear()
-    screen.setText(str(answer[0]))
+
+    if answer != None:
+       screen.clear()
+       screen.setText(str(answer[0]))
+    if answer == None:
+        screen.clear()
+        screen.setPlaceholderText((en()))
+        return
+
 
 def conversion(values):
         for m in range(0, len(values)):
@@ -138,10 +144,10 @@ def validation(values):
                     validate = False
             elif values[m] == '-' or values[m] == '+':
                 if m == 0:
-                    if values[m-1] == '-' or values[-1] ==  '+' and values[+1] == '-' and values[-1] ==  '+':
+                    if values[m+1] == '-' and values[m+1] ==  '+':
                         validate = False
                 elif 0 < m < len(values) - 1:
-                    if values[m-1] == '-' or values[-1] ==  '+' and values[+1] == '-' and values[-1] ==  '+':
+                    if values[m-1] == '-' or values[m-1] ==  '+' and values[m+1] == '-' or values[m-1] ==  '+':
                         validate = False
                     elif m == len(values) - 1:
                         validate = False
@@ -323,4 +329,3 @@ window.setFixedSize(300, 300)
 window.show()
 
 my_app.exec()
-
