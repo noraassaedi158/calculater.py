@@ -61,13 +61,13 @@ def sp():
                     try:
                           before=float(values[m-1])
                     except:
-                        pass
+                          before=None
             elif values[m] == ")":
                 if m+1<len(values):
                     try:
                         after = float(values[m +1])
                     except:
-                        pass
+                        after = None
                 br = br_finder.pop()
                 values_br = values[br + 1: m]
                 if len(values_br) ==0:
@@ -81,7 +81,7 @@ def sp():
                         answer = normalization(answer)
                         if answer != None and len(answer) != 1:
                             answer = bidmas(answer)
-                            
+
                     if after != None and before != None:
                         answer = answer[0] * float(after) *float(before)
                         values[br-1:m+2] =[answer]
@@ -91,12 +91,14 @@ def sp():
                     elif before != None and after == None:
                         answer = answer[0] * float(before)
                         values[br-1:m+1] = [answer]
+                    # replace even the brackets
                     elif before == None and after == None:
                         values[br: m + 1] = answer
                         print(values)
                     break
     if len(values) == 0:
         return
+
     answer=conversion(values)
     answer = validation(answer)
     if answer != None:
@@ -116,6 +118,7 @@ def conversion(values):
         return values
 
 def validation(values):
+    validate= True
     if len(values) == 1:
         if isinstance(values[0], float):
            return values
@@ -126,31 +129,30 @@ def validation(values):
     else:
         for m in range(0, len(values)):
             if values[m] == 'x' or values[m] == '÷':
-                if m < len(values)-1:
-                    if values[m + 1] == 'x' or values[m + 1] == '÷'  :
-                        screen.clear()
-                        screen.setPlaceholderText((en()))
-                        return
-                elif 0< m < len(values) -1:
-                     if values[m - 1] == 'x' or values[m - 1] == '÷'  :
-                        screen.clear()
-                        screen.setPlaceholderText((en()))
-                        return
-                elif values[-1] == 'x' and values[-1] ==  '÷' and values[-1] == '-' and values[-1] ==  '+':
-                    screen.clear()
-                    screen.setPlaceholderText((en()))
-                    return
-                elif values[0] == 'x' or values[0] == '÷':
-                    screen.clear()
-                    screen.setPlaceholderText((en()))
-                    return
-            elif values[m] == '-' or values[m] ==  '+':
-                if m<len(values)-1:
-                    if values[m+1] == 'x' or values[m+1] ==  '÷':
-                        screen.clear()
-                        screen.setPlaceholderText((en()))
-                        return
-        return values
+                if m==0:
+                    validate = False
+                elif 0< m < len(values)-1:
+                    if values[m + 1] == 'x' or values[m + 1] == '÷' or values[m - 1] == 'x' or values[m - 1] == '÷':
+                        validate = False
+                elif m == len(values)-1:
+                    validate = False
+            elif values[m] == '-' or values[m] == '+':
+                if m == 0:
+                    if values[m-1] == '-' or values[-1] ==  '+' and values[+1] == '-' and values[-1] ==  '+':
+                        validate = False
+                elif 0 < m < len(values) - 1:
+                    if values[m-1] == '-' or values[-1] ==  '+' and values[+1] == '-' and values[-1] ==  '+':
+                        validate = False
+                    elif m == len(values) - 1:
+                        validate = False
+                elif m == len(values)-1:
+                    validate = False
+        if validate:
+           return values
+        else:
+            screen.clear()
+            screen.setPlaceholderText(en())
+            return
 
 def normalization(values):
     m=0
@@ -179,9 +181,6 @@ def normalization(values):
               m+=1
               continue
     return values
-
-
-
 def bidmas(values):
     while len(values) != 1:
         for m in range(0, len(values)):
@@ -324,3 +323,4 @@ window.setFixedSize(300, 300)
 window.show()
 
 my_app.exec()
+
