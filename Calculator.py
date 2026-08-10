@@ -5,7 +5,7 @@ import random
 import datetime
 from PySide6.QtWidgets import QApplication, QWidget, QPushButton, QVBoxLayout, QLabel, QGridLayout, QLineEdit
 from PySide6.QtCore import QTimer, Qt
-
+stop = False
 with open("qoutes.json", 'r') as file:
     q = json.load(file)
 
@@ -27,28 +27,62 @@ def wipe():
 def press():
     screen.clear()
     screen.setPlaceholderText((en()))
-def sp():
+def text_handle():
     values = screen.text().split()
-    br_finder=[]
-    if len(values)==0:
+    answer=manager(values)
+    if answer != None:
         screen.clear()
-        screen.setPlaceholderText((en()))
+        screen.setText(str(answer[0]))
+    if answer == None:
+        press()
         return
+
+def manager(values):
+    global stop
+    stop = False
+    if len(values) == 0:
+        stop = True
+        return
+    else:
+        if stop == False:
+            bracket(values)
+            answer = conversion(values)
+            answer = validation(answer)
+            if stop == False:
+                answer = normalization(answer)
+                if stop == False and len(answer) != 1:
+                    answer = bidmas(answer)
+                    return answer
+                elif stop == False:
+                    return answer
+                else:
+                    return
+            else:
+                return
+        if stop == True:
+            press()
+            return
+        else:
+            return
+
+
+def bracket(values):
+    global stop
+    stop = False
+    br_finder = []
+    answer = None
     #this is for validating the brackets
     for m in  range(0, len(values)):
             if values[m] == "(":
                 br_finder.append(m)
             elif values[m] == ")":
                 if len(br_finder) == 0:
-                    screen.clear()
-                    screen.setPlaceholderText((en()))
+                    stop= True
                     return
                 else:
                     br_finder.pop()
-
     if len(br_finder) > 0:
-        screen.clear()
-        screen.setPlaceholderText((en()))
+        stop = True
         return
     #and here is where it is solved
     for m in range(0, len(values)):
@@ -71,8 +105,7 @@ def sp():
                 br = br_finder.pop()
                 values_br = values[br + 1: m]
                 if len(values_br) ==0:
-                    screen.clear()
-                    screen.setPlaceholderText((en()))
+                    stop = True
                     return
                 else:
                     answer = conversion(values_br)
@@ -81,7 +114,7 @@ def sp():
                         answer = normalization(answer)
                         if answer != None and len(answer) != 1:
                             answer = bidmas(answer)
-
+                if stop == False:
                     if after != None and before != None:
                         answer = answer[0] * float(after) *float(before)
                         values[br-1:m+2] =[answer]
@@ -93,26 +126,10 @@ def sp():
                         values[br-1:m+1] = [answer]
                     # replace even the brackets
                     elif before == None and after == None:
-                        values[br: m + 1] = answer
-                        print(values)
+                           values[br: m + 1] = answer
                     break
-    if len(values) == 0:
-        return
 
-    answer=conversion(values)
-    answer = validation(answer)
-    if answer != None:
-        answer = normalization(answer)
-        if answer != None and len(answer) != 1:
-           answer = bidmas(answer)
 
-    if answer != None:
-       screen.clear()
-       screen.setText(str(answer[0]))
-    if answer == None:
-        screen.clear()
-        screen.setPlaceholderText((en()))
-        return
 
 
 def conversion(values):
@@ -124,6 +141,7 @@ def conversion(values):
         return values
 
 def validation(values):
+    global stop
     validate= True
     if len(values) == 1:
         if isinstance(values[0], float):
@@ -131,6 +149,7 @@ def validation(values):
         else:
             screen.clear()
             screen.setPlaceholderText((en()))
+            stop =True
             return
     else:
         for m in range(0, len(values)):
@@ -142,22 +161,36 @@ def validation(values):
                         validate = False
                 elif m == len(values)-1:
                     validate = False
+                if m < len(values) - 1:
+                   if values[m+1] ==0:
+                       validate = False
             elif values[m] == '-' or values[m] == '+':
                 if m == 0:
-                    if values[m+1] == '-' and values[m+1] ==  '+':
+                    if values[m+1] == '-' or values[m+1] ==  '+':
                         validate = False
+                        break
                 elif 0 < m < len(values) - 1:
-                    if values[m-1] == '-' or values[m-1] ==  '+' and values[m+1] == '-' or values[m-1] ==  '+':
+                    if isinstance(values[m - 1], float) and values[m + 1] == '-' or values[m + 1] == '+':
+                        validate = True
+                    if isinstance(values[m + 1], float) and values[m - 1] == '-' or values[m - 1] == '+':
+                        validate = True
+                    elif (values[m-1] == '-' or values[m-1] ==  '+') and(values[m+1] == '-' or values[m+1] ==  '+'):
                         validate = False
-                    elif m == len(values) - 1:
+                        break
+                    elif  not isinstance(values[m+1], float):
                         validate = False
+                        break
                 elif m == len(values)-1:
                     validate = False
+                    break
+            elif not (isinstance(values[m], float) or values[m] in ('+', '-', 'x', '÷')):
+                    validate = False
+                    break
+
         if validate:
            return values
         else:
-            screen.clear()
-            screen.setPlaceholderText(en())
+            stop = True
             return
 
 def normalization(values):
@@ -166,9 +199,9 @@ def normalization(values):
         return values
     else:
      while m < len(values):
-        if m+1< len(values) < m-1 or m>=0:
+        if m+1< len(values) and m>=0:
           if values[m] == "-" or values[m] == "+":
-              if (m==0 and isinstance(values[m+1], float)) or (not isinstance(values[m-1], float) and isinstance(values[m+1], float)) :
+              if (m==0 and isinstance(values[m+1], float)) or  m > 0 and (not isinstance(values[m-1], float) and isinstance(values[m+1], float)) :
                     if values[m] =="+":
                         values[m: m+2] =[values[m+1]]
                         m+=1
@@ -188,6 +221,7 @@ def normalization(values):
               continue
     return values
 def bidmas(values):
+    global stop
     while len(values) != 1:
         for m in range(0, len(values)):
             if values[m] == 'x':
@@ -198,6 +232,7 @@ def bidmas(values):
                 if values[m + 1] == 0:
                     screen.clear()
                     screen.setPlaceholderText((en()))
+                    stop = True
                     return
                 else:
                     v = [values[m - 1] / values[m + 1]]
@@ -263,7 +298,7 @@ left_br.clicked.connect(lambda: calc_num(" ( ") )
 right_br = QPushButton(")")
 right_br.clicked.connect(lambda: calc_num(" ) ") )
 equals = QPushButton(" = ")
-equals.clicked.connect(sp)
+equals.clicked.connect(text_handle)
 press_me=QPushButton("Press me!")
 press_me.clicked.connect(press)
 title= QLabel("This is my first personal mini project! ")
