@@ -21,4 +21,3 @@ class CalculatorControl:
              answer = self.model.normalization(answer)
              answer = self.model.bidmas(answer)
              return answer
-
