@@ -203,6 +203,7 @@ class CalculatorModel:
             return values
 
     def bidmas(self, values):
+        m=0
         if values is None:
             self.stopping(values)
         elif len(values) == 1:
@@ -210,29 +211,34 @@ class CalculatorModel:
             return values
         else:
             while len(values) != 1:
-                for m in range(0, len(values)):
+                while m < len(values):
                     if values[m] == 'x':
                         v = [float(values[m - 1]) * values[m + 1]]
                         values[m - 1:m + 2] = v
-                        break
-                    elif values[m] == '÷':
+                        m=0
 
+                    elif values[m] == '÷':
                         if values[m + 1] == 0:
                             self.stop = True
                             self.stopping(values)
                         else:
                             v = [values[m - 1] / values[m + 1]]
                             values[m - 1:m + 2] = v
-                            break
-                for m in range(0, len(values)):
+                            m=0
+                    else:
+                        m+=1
+                m=0
+                while m < len(values):
                     if values[m] == '+':
                         v = [values[m - 1] + values[m + 1]]
                         values[m - 1:m + 2] = v
-                        break
+                        m=0
                     elif values[m] == '-':
                         v = [values[m - 1] - values[m + 1]]
                         values[m - 1:m + 2] = v
-                        break
+                        m=0
+                    else:
+                        m+=1
             self.stopping(values)
             return values
     def stopping(self, values):
