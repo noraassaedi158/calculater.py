@@ -1,9 +1,8 @@
-import signal
-import sys
 import json
 import random
 import datetime
-from PySide6.QtWidgets import QApplication, QWidget, QPushButton, QVBoxLayout, QLabel, QGridLayout, QLineEdit
+from PySide6.QtWidgets import QWidget, QPushButton, QVBoxLayout,QHBoxLayout, QLabel, QGridLayout, QLineEdit, QCheckBox
+from PySide6.QtGui import QGuiApplication
 from PySide6.QtCore import QTimer, Qt
 #open my JSON file to access the qoutes
 with open("qoutes.json", 'r') as file:
@@ -13,19 +12,24 @@ class CalculatorView(QWidget):
     #self is for anything that will be used outside this module, the rest of the variables are local
     def __init__(self):
         super().__init__()
+        self.scheme= QGuiApplication.styleHints().colorScheme()
         self.setWindowTitle("Calculator")
+        title = QLabel("First personal mini project!")
+        title.setObjectName("title")
+        title.setAlignment(Qt.AlignmentFlag.AlignCenter)
+        self.time = QLabel()
+        self.clock = QTimer()
+        self.clock.setInterval(1000)
+        self.clock.timeout.connect(self.time_rn)
+        self.clock.start()
+        date = QLabel(datetime.datetime.now().strftime("%A %d/%m/%Y"))
+        self.mode = QCheckBox('Dark')
         self.screen = QLineEdit(self)
         self.screen.setFixedHeight(30)
         self.screen.setPlaceholderText(self.en())
         self.screen.setReadOnly(True)
         cleared = QPushButton("Clear")
         cleared.clicked.connect(self.wipe)
-        date = QLabel("Date: " + datetime.datetime.now().strftime("%A %d %B %Y"))
-        self.time = QLabel()
-        self.clock = QTimer()
-        self.clock.setInterval(1000)
-        self.clock.timeout.connect(self.time_rn)
-        self.clock.start()
         one = QPushButton(" 1 ")
         one.clicked.connect(lambda: self.calc_num("1"))
         two = QPushButton(" 2 ")
@@ -63,13 +67,16 @@ class CalculatorView(QWidget):
         self.equals = QPushButton(" = ")
         press_me = QPushButton("Press me!")
         press_me.clicked.connect(self.press)
-        title = QLabel("This is my first personal mini project!")
-        title.setObjectName("title")
+        date_time= QVBoxLayout()
+        date_time.addWidget(date)
+        date_time.addWidget(self.time)
+        date_mode = QHBoxLayout()
+        date_mode.addLayout(date_time)
+        date_mode.addStretch(9)
+        date_mode.addWidget(self.mode)
         whole_layout = QVBoxLayout()
+        whole_layout.addLayout(date_mode)
         whole_layout.addWidget(title)
-        whole_layout.addWidget(date)
-        whole_layout.addWidget(self.time)
-        title.setAlignment(Qt.AlignmentFlag.AlignCenter)
         whole_layout.addWidget(self.screen)
         whole_layout.addWidget(cleared)
         buttons_layout = QGridLayout()
@@ -94,22 +101,33 @@ class CalculatorView(QWidget):
         buttons_layout.addWidget(self.equals, 4, 2, 1, 2)
         whole_layout.addLayout(buttons_layout)
         self.setLayout(whole_layout)
-        self.setStyleSheet(""" QWidget {background-color: #A6425B;
+    def light_mode(self):
+             self.setStyleSheet(""" QWidget {background-color: #A6425B;
                                       color: black }
+                              QCheckBox::indicator{
+                                          width: 15px;
+                                          height: 15px;
+                                                       }
+                              QCheckBox{ color : white ;
+                                    font-weight: bold ; 
+                                    font-size: 9px;
+                                    font-family: Lucida Console }
                           QPushButton { background-color: pink;
                                         color: #A6425B ;
                                         font-weight: bold;
                                         border: 1.5px solid #BD6073; 
                                         border-radius: 8px;
+                                        font-weight: bold ;
                                         } 
                            QPushButton:pressed { background-color: #FAEDED} 
                            QPushButton:hover { background-color: #FAEDED}             
                            QLabel { color : white ;
                                     font-weight: bold ; 
+                                    font-size: 9px;
                                     font-family: Lucida Console }
-                           QLabel#title{color : black ;
+                           QLabel#title{color : white ;
                                     font-size: 13px;
-                                    font-family : Lucida Calligraphy}
+                                    font-family : Lucida Console}
                            QLineEdit{
                                     color : white ;
                                     font-weight: bold;
@@ -118,6 +136,41 @@ class CalculatorView(QWidget):
                                     font-family: Lucida Console} 
                            QLineEdit::placeholder { color: white;
                                                     font-weight: bold} """)
+    def dark_mode(self):
+            self.setStyleSheet(""" QWidget {background-color:#292929;
+                                          color:#A6425B }
+                                  QCheckBox::indicator{
+                                              width: 15px;
+                                              height: 15px;
+                                                           }
+                                  QCheckBox{ color : white ;
+                                        font-weight: bold ; 
+                                        font-size: 9px;
+                                        font-family: Lucida Console }
+                              QPushButton { background-color: #292929;
+                                            color: white;
+                                            font-weight: bold;
+                                            border: 1.5px solid #7F3240; 
+                                            border-radius: 8px;
+                                            font-weight: bold ;
+                                            } 
+                               QPushButton:pressed { background-color:#6E2B3B} 
+                               QPushButton:hover { background-color: #6E2B3B}             
+                               QLabel { color : white ;
+                                        font-weight: bold ; 
+                                        font-size: 9px;
+                                        font-family: Lucida Console }
+                               QLabel#title{color : white ;
+                                        font-size: 13px;
+                                        font-family : Lucida Console}
+                               QLineEdit{
+                                        color : white ;
+                                        font-weight: bold;
+                                        border:  0.5px solid #BD6073;
+                                        border-radius: 8px;
+                                        font-family: Lucida Console} 
+                               QLineEdit::placeholder { color: white;
+                                                        font-weight: bold} """)
 
 
 
@@ -139,6 +192,6 @@ class CalculatorView(QWidget):
         self.screen.setText(str(answer[0]))
 
     def time_rn(self):
-        self.time.setText("Time: " + datetime.datetime.now().strftime("%I:%M %p"))
+        self.time.setText(datetime.datetime.now().strftime("%I:%M %p"))
 
 
