@@ -44,8 +44,9 @@ This was one of the main learning parts of the project, as I gradually developed
 ## 📸 Calculator GUI
 
 * Dark Mode:
-  
-  <img width="377" height="412" alt="Screenshot 2026-08-24 175319" src="https://github.com/user-attachments/assets/8e7267a6-3e48-4f3c-9ba8-ea89cd01b515" />
+
+  <img width="372" height="407" alt="Screenshot 2026-08-24 175613" src="https://github.com/user-attachments/assets/2615221c-15b8-4b62-aedc-4ee580c7f1c1" />
+
   
 * Light Mode:
 
