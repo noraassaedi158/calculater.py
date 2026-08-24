@@ -216,7 +216,6 @@ class CalculatorModel:
                         v = [float(values[m - 1]) * values[m + 1]]
                         values[m - 1:m + 2] = v
                         m=0
-
                     elif values[m] == '÷':
                         if values[m + 1] == 0:
                             self.stop = True
@@ -227,6 +226,7 @@ class CalculatorModel:
                             m=0
                     else:
                         m+=1
+
                 m=0
                 while m < len(values):
                     if values[m] == '+':
