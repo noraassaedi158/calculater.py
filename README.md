@@ -27,6 +27,7 @@ AI was used as a learning and debugging tool. It helped explain Python syntax, d
 * Clear button with randomized messages
 * Live date and time display
 * Custom GUI styling using Qt Style Sheets (QSS)
+* Dark mode and Light mode, including system theme detection to automatically match the computer’s light/dark mode
   
 ## 🧠 Calculator Engine
 The calculator does not use Python's `eval()` to evaluate expressions.
@@ -42,7 +43,15 @@ This was one of the main learning parts of the project, as I gradually developed
 
 ## 📸 Calculator GUI
 
-<img width="378" height="412" alt="Screenshot 2026-07-24 160135" src="https://github.com/user-attachments/assets/2a202552-e917-46a1-ba29-13671d28d5de" />
+* Dark Mode:
+  
+  <img width="377" height="412" alt="Screenshot 2026-08-24 175319" src="https://github.com/user-attachments/assets/8e7267a6-3e48-4f3c-9ba8-ea89cd01b515" />
+  
+* Light Mode:
+
+  <img width="377" height="410" alt="Screenshot 2026-08-24 175332" src="https://github.com/user-attachments/assets/20ee8843-efde-4dc1-a513-ac49c56dc2ad" />
+
+  
 
 
 ## 🛠️ Technologies Used
@@ -135,11 +144,11 @@ python main.py
 * Strengthened the calculator's handling of invalid expressions
 fore applying the remaining operations.
 
-## Version 2 (Soon)
+## Version 2 
 
-* Refactor the code using OOP and the MVC architecture
-* Rename and reorganize functions and variables for clearer structure
-* Add a dark mode
+* Refactored the calculator using OOP and the MVC architecture
+* Added dark mode
+* Added system theme detection to automatically match the computer’s light/dark mode
 
 
 
