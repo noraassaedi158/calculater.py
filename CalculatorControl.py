@@ -1,7 +1,15 @@
+from PySide6.QtCore import Qt
 class CalculatorControl:
     def __init__(self, model, view):
         self.model=model
         self.view = view
+        if self.view.scheme == Qt.ColorScheme.Dark:
+             self.view.dark_mode()
+             self.view.mode.setChecked(True)
+        else:
+            self.view.light_mode()
+        self.view.mode.toggled.connect(self.modes)
+
     def text_handle(self):
         values = self.view.screen.text().split()
         answer = self.manager(values)
@@ -21,3 +29,15 @@ class CalculatorControl:
              answer = self.model.normalization(answer)
              answer = self.model.bidmas(answer)
              return answer
+    def modes(self,checked):
+        if checked:
+            self.view.dark_mode()
+        else:
+            self.view.light_mode()
+
+
+
+
+
+
+
