@@ -2,8 +2,7 @@ from CalculatorModel import CalculatorModel
 from CalculatorView import CalculatorView
 from CalculatorControl import CalculatorControl
 import sys
-from PySide6.QtWidgets import QApplication, QWidget, QPushButton, QVBoxLayout, QLabel, QGridLayout, QLineEdit
-from PySide6.QtCore import QTimer, Qt
+from PySide6.QtWidgets import QApplication
 class CalculatorMain:
     def main(self):
         app = QApplication(sys.argv)
